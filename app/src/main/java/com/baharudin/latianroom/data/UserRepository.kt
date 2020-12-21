@@ -11,4 +11,10 @@ class UserRepository(private var userDao: UserDao) {
     suspend fun updateUser(user: User){
         userDao.updateData(user)
     }
+    suspend fun deleteUser(user: User){
+        userDao.deleteUser(user)
+    }
+    suspend fun deleteAll(){
+        userDao.deleteAll()
+    }
 }

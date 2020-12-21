@@ -1,8 +1,12 @@
 package com.baharudin.latianroom.ui.update
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextUtils
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
@@ -36,8 +40,34 @@ class UpdateFragment : Fragment(R.layout.fragment_update),ListAdapter.OnclickUse
                 updateData()
             }
         }
-
+        setHasOptionsMenu(true)
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_delete,menu)
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId == R.id.menu_delete){
+            deleteUser()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun deleteUser() {
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setPositiveButton("Yes"){_, _ ->
+            mViewModel.deleteUser(args.userUpdate)
+            Toast.makeText(requireContext(), "Berhasil menghapus : ${args.userUpdate.namaDepan}", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_updateFragment_to_homeFragment)
+        }
+        builder.setNegativeButton("No"){_, _ -> }
+        builder.setTitle("Delete ${args.userUpdate.namaDepan}?")
+        builder.setMessage("Apakah yakin mau hapus ${args.userUpdate.namaDepan}")
+        builder.create().show()
+    }
+
     private fun updateData(){
         val namaDepan = binding.etUpdateNama.text.toString()
         val namaBelakang = binding.etUpdateBelakang.text.toString()

@@ -9,6 +9,10 @@ interface UserDao {
     suspend fun createUser(user: User)
     @Query("SELECT * FROM user_table ORDER BY id")
      fun readAllData() : LiveData<List<User>>
+     @Delete
+     suspend fun deleteUser(user: User)
+     @Query("DELETE FROM user_table")
+     suspend fun deleteAll()
      @Update
      suspend fun updateData(user: User)
 
